@@ -10,7 +10,7 @@ fake = Faker()
 def generate_random_patient() -> Patient:
     return Patient(
         name=fake.name(),
-        risk_tier=random.randint(1, 5),
+        risk_tier=random.randint(1, 5),  # Updated field name
         hospital_visits=random.randint(1, 20),
         roi_amount=random.uniform(1000.0, 50000.0),
     )
