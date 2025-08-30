@@ -1,1 +1,4 @@
+# This is the final version after you edit it
 .venv/
+*.pyc
+__pycache__/
