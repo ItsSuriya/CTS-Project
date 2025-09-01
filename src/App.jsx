@@ -1,25 +1,26 @@
-import React from 'react'
-import { Hero } from './components/Hero'
-import  NavBar from './components/Navbar'
-import AboutSection from './components/About'
-import FeaturesGrid from './components/Features'
-import { HowItWorks } from './components/HowItWorks'
-import { DevelopersSection } from './components/Team'
-import { ParallaxFooter } from './components/Footer'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import NavBar from "./components/NavBar";
+import Home from "./pages/Home";
+//import AboutUs from "./pages/AboutUs";
+import Analysis from "./pages/Analysis";
+//import Result from "./pages/Result";
 
-const App = () => {
+function App() {
   return (
-    <div>
+    <Router>
+      {/* NavBar is outside Routes → visible on all pages */}
       <NavBar />
-      <Hero />
-      <AboutSection />
-      <FeaturesGrid />
-      <HowItWorks />
-      <DevelopersSection />
-      <ParallaxFooter />
-      {/* <div className='min-h-screen'></div> */}
-    </div>
-  )
+
+      <div className="pt-20"> {/* optional padding to avoid overlap with fixed navbar */}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          {/* <Route path="/about-us" element={<AboutUs />} /> */}
+          <Route path="/analysis" element={<Analysis />} />
+          {/* <Route path="/result" element={<Result />} /> */}
+        </Routes>
+      </div>
+    </Router>
+  );
 }
 
-export default App
+export default App;
