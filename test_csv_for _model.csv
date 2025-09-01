@@ -1,0 +1,11 @@
+DESYNPUF_ID,Age,chronic_condition_count,SP_CHF,SP_CHRNKIDN,SP_COPD,inpatient_visit_count_08_09,outpatient_visit_count_08_09,unique_drug_count_08_09,acute_heart_failure_claim_count_08_09,acute_kidney_injury_claim_count_08_09,copd_exacerbation_claim_count_08_09
+PATIENT-TEST-001,67,1,0,0,0,0,2,1,0,0,0
+PATIENT-TEST-002,71,2,0,0,0,0,5,3,0,0,0
+PATIENT-TEST-003,82,3,1,0,0,1,8,7,1,0,0
+PATIENT-TEST-004,78,4,0,0,1,1,15,12,0,0,4
+PATIENT-TEST-005,85,5,1,1,0,2,18,15,2,1,0
+PATIENT-TEST-006,91,2,1,0,0,3,10,9,3,0,0
+PATIENT-TEST-007,76,6,1,1,1,2,22,19,1,1,2
+PATIENT-TEST-008,89,8,1,1,1,5,35,25,6,4,1
+PATIENT-TEST-009,72,2,0,1,0,1,7,6,0,2,0
+PATIENT-TEST-010,94,7,1,1,0,6,28,21,7,2,0
