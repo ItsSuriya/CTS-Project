@@ -11,7 +11,7 @@ const developers = [
   {
     name: "Suriya ",
     role: "Backend  Developer",
-    img: "https://randomuser.me/api/portraits/men/44.jpg",
+    img: "/suriya.jpeg",
   },
   {
     name: "Kishore",
@@ -21,7 +21,7 @@ const developers = [
   {
     name: "Jayvanti",
     role: "UI/UX Designer",
-    img: "https://randomuser.me/api/portraits/women/36.jpg",
+    img: "/jayvanti.jpeg",
   },
   {
     name: "Bala Mohanan",

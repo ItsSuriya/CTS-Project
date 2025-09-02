@@ -9,7 +9,7 @@ const NavBar = () => {
 
   const navItems = [
     { name: "Home", url: "/" },
-    { name: "Analysis", url: "/Analysis" },
+    { name: "Analysis", url: "/analysis" },
     { name: "Result", url: "/result" },
   ]
 
