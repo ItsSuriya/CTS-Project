@@ -6,7 +6,7 @@ const AboutSection = () => {
   const navigate = useNavigate()
 
   return (
-    <section className="relative w-full bg-[#0a0a0a] py-16 px-6 md:px-12 lg:px-20">
+    <section className="relative w-full bg-white py-16 px-6 md:px-12 lg:px-20">
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
         
         {/* Text Section */}
@@ -17,40 +17,40 @@ const AboutSection = () => {
           viewport={{ once: true }}
           className="space-y-6"
         >
-          <h2 className="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-800">
             About{" "}
-            <span className="font-island text-7xl bg-gradient-to-r from-pink-500 to-purple-700 bg-clip-text text-transparent">
+            <span className="font-island text-6xl bg-gradient-to-r from-blue-600 to-emerald-500 bg-clip-text text-transparent">
               Hope Care
             </span>
           </h2>
 
-          <p className="text-gray-300 text-lg leading-relaxed">
-            Healthcare today is often <span className="font-semibold text-purple-400">reactive</span>. 
+          <p className="text-slate-700 text-lg leading-relaxed">
+            Healthcare today is often <span className="font-semibold text-blue-600">reactive</span>. 
             Care teams wait for a crisis to occur before they step in. 
-            Prognos Health changes that story — by giving clinicians a proactive 
-            co-pilot that surfaces hidden risks *before* they become emergencies.
+            Hope Care changes that story — by giving clinicians a proactive 
+            co-pilot that surfaces hidden risks <em>before</em> they become emergencies.
           </p>
 
-          <p className="text-gray-400 leading-relaxed">
+          <p className="text-slate-600 leading-relaxed">
             Imagine Priya, a care manager, responsible for 500 patients. 
-            Without Prognos, she only sees patients ranked by basic conditions. 
-            With Prognos, subtle signals — like ER visits or late refills — 
-            are analyzed by our AI overnight. 
+            Without Hope Care, she only sees patients ranked by basic conditions. 
+            With our AI, subtle signals — like ER visits or late refills — 
+            are analyzed overnight. 
           </p>
 
-          <p className="text-gray-400 leading-relaxed">
+          <p className="text-slate-600 leading-relaxed">
             Suddenly, Mr. Sharma, who looked stable on paper, rises to the top of 
-            her priority list. Prognos doesn’t just say <em>“high risk”</em> — it explains 
-            <span className="font-medium text-pink-400"> why</span>, and even suggests the 
-            <span className="font-medium text-pink-400"> right next action</span>.  
+            her priority list. Hope Care doesn’t just say <em>“high risk”</em> — it explains 
+            <span className="font-medium text-emerald-600"> why</span>, and even suggests the 
+            <span className="font-medium text-purple-600"> right next action</span>.  
           </p>
 
           {/* Button to navigate */}
           <button
             onClick={() => navigate("/analysis")}
-            className="mt-4 px-6 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 
-                       text-white font-semibold shadow-lg hover:shadow-pink-500/40 
-                       hover:scale-105 transition-all duration-300"
+            className="mt-4 px-6 py-3 rounded-full bg-gradient-to-r from-blue-600 to-emerald-500 
+                       text-white font-semibold shadow-lg hover:shadow-lg hover:scale-105 
+                       transition-all duration-300"
           >
             Explore the Platform
           </button>
@@ -68,10 +68,10 @@ const AboutSection = () => {
             <img
               src="/home.jpg"
               alt="Healthcare AI dashboard"
-              className="rounded-2xl shadow-2xl"
+              className="rounded-2xl shadow-xl"
             />
-            {/* Gradient Overlay Glow */}
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-purple-500/30 to-pink-500/30 blur-2xl -z-10" />
+            {/* Soft Gradient Overlay Glow */}
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-blue-200/40 to-emerald-200/40 blur-2xl -z-10" />
           </div>
         </motion.div>
       </div>

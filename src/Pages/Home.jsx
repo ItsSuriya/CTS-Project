@@ -1,21 +1,18 @@
 import React from 'react'
-import { Hero } from '../components/Hero'
-import  NavBar from '../components/Navbar'
 import AboutSection from '../components/About'
 import FeaturesGrid from '../components/Features'
 import { HowItWorks } from '../components/HowItWorks'
-import { DevelopersSection } from '../components/Team'
 import { ParallaxFooter } from '../components/Footer'
+import DemoOne from '@/components/Hero1'
 
 const Home = () => {
   return (
     <div>
-      <NavBar />
-      <Hero />
+      <DemoOne />
       <AboutSection />
       <FeaturesGrid />
       <HowItWorks />
-      <DevelopersSection />
+      {/* <DevelopersSection /> */}
       <ParallaxFooter />
       {/* <div className='min-h-screen'></div> */}
     </div>

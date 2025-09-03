@@ -13,17 +13,13 @@ function FloatingPaths({ position }) {
     }C${616 - i * 5 * position} ${470 - i * 6} ${684 - i * 5 * position} ${
       875 - i * 6
     } ${684 - i * 5 * position} ${875 - i * 6}`,
-    color: `rgba(15,23,42,${0.1 + i * 0.03})`,
+    color: `rgba(37, 99, 235, ${0.05 + i * 0.02})`, // blue-600 light paths
     width: 0.5 + i * 0.03,
   }));
 
   return (
     <div className="absolute inset-0 pointer-events-none">
-      <svg
-        className="w-full h-full text-pink-700"
-        viewBox="0 0 696 316"
-        fill="none"
-      >
+      <svg className="w-full h-full text-emerald-600" viewBox="0 0 696 316" fill="none">
         <title>Background Paths</title>
         {paths.map((path) => (
           <motion.path
@@ -31,11 +27,11 @@ function FloatingPaths({ position }) {
             d={path.d}
             stroke="currentColor"
             strokeWidth={path.width}
-            strokeOpacity={0.1 + path.id * 0.03}
-            initial={{ pathLength: 0.3, opacity: 0.6 }}
+            strokeOpacity={0.05 + path.id * 0.02}
+            initial={{ pathLength: 0.3, opacity: 0.5 }}
             animate={{
               pathLength: 1,
-              opacity: [0.3, 0.6, 0.3],
+              opacity: [0.2, 0.5, 0.2],
               pathOffset: [0, 1, 0],
             }}
             transition={{
@@ -50,19 +46,16 @@ function FloatingPaths({ position }) {
   );
 }
 
-// 🔹 Custom smooth scroll with adjustable speed
+// 🔹 Custom smooth scroll
 function smoothScrollBy(distance, duration) {
   const start = window.scrollY;
   const startTime = performance.now();
 
   const step = (currentTime) => {
     const progress = Math.min((currentTime - startTime) / duration, 1);
-    const ease = 1 - Math.pow(1 - progress, 3); // cubic ease-out
+    const ease = 1 - Math.pow(1 - progress, 3);
     window.scrollTo(0, start + distance * ease);
-
-    if (progress < 1) {
-      requestAnimationFrame(step);
-    }
+    if (progress < 1) requestAnimationFrame(step);
   };
 
   requestAnimationFrame(step);
@@ -72,12 +65,14 @@ export function BackgroundPaths({ title = "Background Paths" }) {
   const words = title.split(" ");
 
   return (
-    <div className="relative h-[95vh] w-full flex items-center justify-center overflow-hidden bg-black dark:bg-neutral-950">
+    <div className="relative h-[95vh] w-full flex items-center justify-center overflow-hidden bg-white">
+      {/* Floating background paths */}
       <div className="absolute inset-0">
         <FloatingPaths position={1} />
         <FloatingPaths position={-1} />
       </div>
 
+      {/* Center Content */}
       <div className="relative z-10 container mx-auto px-4 md:px-6 text-center">
         <motion.div
           initial={{ opacity: 0 }}
@@ -85,51 +80,47 @@ export function BackgroundPaths({ title = "Background Paths" }) {
           transition={{ duration: 2 }}
           className="max-w-4xl mx-auto"
         >
-          <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold mt-auto mb-8 tracking-tight">
-            {words.map((word, wordIndex) => (
-              <span key={wordIndex} className="inline-block mr-4 last:mr-0">
-                {word.split("").map((letter, letterIndex) => (
-                  <motion.span
-                    key={`${wordIndex}-${letterIndex}`}
-                    initial={{ y: 100, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{
-                      delay: wordIndex * 0.1 + letterIndex * 0.03,
-                      type: "spring",
-                      stiffness: 150,
-                      damping: 25,
-                    }}
-                    className="inline-block text-transparent bg-clip-text bg-purple-700"
-                  >
-                    {letter}
-                  </motion.span>
-                ))}
-              </span>
-            ))}
-          </h1>
+         <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold mt-auto mb-8 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-cyan-500">
+  {words.map((word, wordIndex) => (
+    <span key={wordIndex} className="inline-block mr-4 last:mr-0">
+      {word.split("").map((letter, letterIndex) => (
+        <motion.span
+          key={`${wordIndex}-${letterIndex}`}
+          initial={{ y: 100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{
+            delay: wordIndex * 0.1 + letterIndex * 0.03,
+            type: "spring",
+            stiffness: 150,
+            damping: 25,
+          }}
+          className="inline-block"
+        >
+          {letter}
+        </motion.span>
+      ))}
+    </span>
+  ))}
+</h1>
 
+          {/* Button */}
           <div
-            className="inline-block group relative bg-gradient-to-b from-black/10 to-white/10 
-            dark:from-white/10 dark:to-black/10 p-px rounded-2xl backdrop-blur-lg 
-            overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
+            className="inline-block group relative bg-gradient-to-b from-blue-100 to-green-100 
+            p-px rounded-2xl backdrop-blur-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300"
           >
             <Button
               variant="ghost"
-              onClick={() => {
-                // 🔹 Scroll 1000px down in 1.5s
-                smoothScrollBy(1000, 2000);
-              }}
+              onClick={() => smoothScrollBy(900, 2000)}
               className="rounded-[1.15rem] px-8 py-6 text-lg font-semibold backdrop-blur-md 
-                bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-pink-500/100 dark:bg-black/95 dark:hover:bg-black/100 
-                text-white dark:text-white transition-all duration-300 
-                group-hover:-translate-y-0.5 border border-black/10 dark:border-white/10
-                hover:shadow-md dark:hover:shadow-white-800/50"
+                bg-gradient-to-r from-blue-600 to-emerald-500 
+                text-white transition-all duration-300 
+                group-hover:-translate-y-0.5 border border-blue-200 hover:shadow-md"
             >
-              <span className="opacity-90 group-hover:opacity-100 transition-opacity">
+              <span className=" group-hover:text-white transition-opacity">
                 Get Started
               </span>
               <span
-                className="ml-3 opacity-70 group-hover:opacity-100 group-hover:translate-x-1.5 
+                className="ml-3  group-hover:text-white group-hover:translate-x-1.5 
                 transition-all duration-300"
               >
                 →

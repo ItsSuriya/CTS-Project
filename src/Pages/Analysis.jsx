@@ -24,7 +24,7 @@ const Analysis = () => {
         <button
           onClick={toggleRoiTable}
           className="flex items-center gap-2 px-6 py-3 rounded-[1.15rem] text-lg font-semibold 
-                   bg-gradient-to-r from-purple-500 to-pink-500 
+                   bg-gradient-to-r from-emerald-500 to-blue-500 
                    text-white transition-all duration-300 
                    hover:scale-105 border border-white/20
                    shadow-lg"

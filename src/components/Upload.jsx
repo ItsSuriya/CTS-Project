@@ -21,10 +21,10 @@ export default function CSVUploadComponent() {
   const handleDrop = (e) => {
     e.preventDefault();
     setIsDragging(false);
-    
+
     const droppedFiles = Array.from(e.dataTransfer.files);
     const csvFile = droppedFiles.find(file => file.type === 'text/csv' || file.name.endsWith('.csv'));
-    
+
     if (csvFile) {
       setFile(csvFile);
       setIsSubmitted(false);
@@ -42,9 +42,7 @@ export default function CSVUploadComponent() {
   const handleRemoveFile = () => {
     setFile(null);
     setIsSubmitted(false);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   const handleSubmit = async (e) => {
@@ -52,20 +50,14 @@ export default function CSVUploadComponent() {
     if (!file) return;
 
     setIsSubmitting(true);
-    
-    // Simulate file processing
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
+    await new Promise(resolve => setTimeout(resolve, 2000)); // simulate API call
     setIsSubmitting(false);
     setIsSubmitted(true);
-    
-    // Reset after 3 seconds
+
     setTimeout(() => {
       setIsSubmitted(false);
       setFile(null);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
+      if (fileInputRef.current) fileInputRef.current.value = '';
     }, 3000);
   };
 
@@ -78,17 +70,17 @@ export default function CSVUploadComponent() {
   };
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center p-6">
+    <div className="min-h-screen bg-[#ffffff] flex items-center justify-center p-6">
       <div className="w-full max-w-md">
         <div className="space-y-6">
           {/* Upload Area */}
           <div
             className={`relative border-2 border-dashed rounded-2xl p-8 text-center transition-all duration-300 cursor-pointer group
-              ${isDragging 
-                ? 'border-pink-500 bg-pink-500/10' 
-                : file 
-                ? 'border-purple-500 bg-purple-500/5' 
-                : 'border-gray-600 hover:border-purple-500 hover:bg-purple-500/5'
+              ${isDragging
+                ? 'border-green-400 bg-green-100'
+                : file
+                ? 'border-teal-500 bg-teal-50'
+                : 'border-slate-300 hover:border-teal-400 hover:bg-teal-50'
               }`}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
@@ -106,37 +98,37 @@ export default function CSVUploadComponent() {
             {!file ? (
               <>
                 <div className={`mx-auto w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all duration-300
-                  ${isDragging ? 'bg-pink-500/20' : 'bg-purple-500/20 group-hover:bg-purple-500/30'}`}>
+                  ${isDragging ? 'bg-green-200' : 'bg-teal-100 group-hover:bg-teal-200'}`}>
                   <Upload className={`w-8 h-8 transition-colors duration-300 
-                    ${isDragging ? 'text-pink-400' : 'text-purple-400 group-hover:text-purple-300'}`} />
+                    ${isDragging ? 'text-green-500' : 'text-teal-500 group-hover:text-teal-600'}`} />
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-2">
+                <h3 className="text-xl font-semibold text-slate-800 mb-2">
                   {isDragging ? 'Drop your CSV file here' : 'Upload CSV File'}
                 </h3>
-                <p className="text-gray-400 text-sm">
+                <p className="text-slate-500 text-sm">
                   Drag and drop your file here, or click to browse
                 </p>
-                <p className="text-gray-500 text-xs mt-2">
+                <p className="text-slate-400 text-xs mt-2">
                   Only CSV files are supported
                 </p>
               </>
             ) : (
               <div className="space-y-3">
-                <div className="mx-auto w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center">
-                  <File className="w-8 h-8 text-purple-400" />
+                <div className="mx-auto w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center">
+                  <File className="w-8 h-8 text-teal-500" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-white truncate">
+                  <h3 className="text-lg font-semibold text-slate-800 truncate">
                     {file.name}
                   </h3>
-                  <p className="text-gray-400 text-sm">
+                  <p className="text-slate-500 text-sm">
                     {formatFileSize(file.size)}
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={handleRemoveFile}
-                  className="inline-flex items-center gap-2 px-3 py-1.5 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-colors duration-200"
+                  className="inline-flex items-center gap-2 px-3 py-1.5 text-sm text-red-500 hover:text-red-600 hover:bg-red-100 rounded-lg transition-colors duration-200"
                 >
                   <X className="w-4 h-4" />
                   Remove
@@ -149,12 +141,12 @@ export default function CSVUploadComponent() {
           <button
             onClick={handleSubmit}
             disabled={!file || isSubmitting}
-            className={`w-full rounded-[1.15rem] px-8 py-4 text-lg font-semibold backdrop-blur-md transition-all duration-300 border border-white/10
+            className={`w-full rounded-[1.15rem] px-8 py-4 text-lg font-semibold transition-all duration-300 border border-slate-200
               ${!file || isSubmitting
-                ? 'bg-gray-800/50 text-gray-500 cursor-not-allowed'
+                ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
                 : isSubmitted
-                ? 'bg-green-500/90 hover:bg-green-500 text-white'
-                : 'bg-gradient-to-r from-purple-500/90 to-pink-500/90 hover:from-purple-500 hover:to-pink-500 text-white hover:shadow-lg hover:shadow-purple-500/25 hover:-translate-y-0.5'
+                ? 'bg-gradient-to-r from-teal-500 to-blue-500 hover:from-teal-600 hover:to-blue-600 text-white'
+                : 'bg-gradient-to-r from-teal-500 to-blue-500 hover:from-teal-600 hover:to-blue-600 text-white shadow-lg hover:-translate-y-0.5'
               }`}
           >
             {isSubmitting ? (
@@ -175,7 +167,7 @@ export default function CSVUploadComponent() {
 
         {/* Info Text */}
         <div className="mt-6 text-center">
-          <p className="text-gray-500 text-sm">
+          <p className="text-slate-500 text-sm">
             Upload your CSV file to process and analyze your data
           </p>
         </div>
