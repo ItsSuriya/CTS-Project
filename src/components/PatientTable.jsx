@@ -88,7 +88,7 @@ export default function PatientTable() {
         <table className="w-full text-sm min-w-max">
           <thead>
             <tr className="bg-gradient-to-r from-slate-700/80 to-slate-600/80 sticky top-0 z-10">
-              <th className="px-3 py-4 text-left font-bold text-purple-400 sticky left-0 bg-slate-700/95 z-20">Age/Sex</th>
+              <th className="px-3 py-4 text-left font-bold text-purple-400 left-0 bg-slate-700/95 z-20">Age/Sex</th>
               <th className="px-3 py-4 text-left font-bold text-purple-400">Location</th>
               <th className="px-3 py-4 text-left font-bold text-purple-400">Insurance</th>
               <th className="px-3 py-4 text-left font-bold text-purple-400">Income</th>
@@ -107,7 +107,7 @@ export default function PatientTable() {
           <tbody>
             {patients.map((patient, index) => (
               <tr key={patient.id} className={`border-b border-white/10 hover:bg-gradient-to-r hover:from-white/5 hover:to-blue-500/5 transition-all duration-300 ${index % 2 === 0 ? 'bg-white/5' : 'bg-transparent'}`}>
-                <td className="px-3 py-4 text-white font-semibold sticky left-0 bg-black/30 z-10 backdrop-blur-sm">
+                <td className="px-3 py-4 text-white font-semibold left-0 bg-black/30 z-10 backdrop-blur-sm">
                   {patient.age}/{patient.sex}
                 </td>
                 <td className="px-3 py-4 text-slate-200 text-xs">

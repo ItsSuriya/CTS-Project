@@ -50,6 +50,24 @@ function FloatingPaths({ position }) {
   );
 }
 
+// 🔹 Custom smooth scroll with adjustable speed
+function smoothScrollBy(distance, duration) {
+  const start = window.scrollY;
+  const startTime = performance.now();
+
+  const step = (currentTime) => {
+    const progress = Math.min((currentTime - startTime) / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3); // cubic ease-out
+    window.scrollTo(0, start + distance * ease);
+
+    if (progress < 1) {
+      requestAnimationFrame(step);
+    }
+  };
+
+  requestAnimationFrame(step);
+}
+
 export function BackgroundPaths({ title = "Background Paths" }) {
   const words = title.split(" ");
 
@@ -81,8 +99,7 @@ export function BackgroundPaths({ title = "Background Paths" }) {
                       stiffness: 150,
                       damping: 25,
                     }}
-                    className="inline-block text-transparent bg-clip-text 
-                        bg-purple-700"
+                    className="inline-block text-transparent bg-clip-text bg-purple-700"
                   >
                     {letter}
                   </motion.span>
@@ -97,7 +114,11 @@ export function BackgroundPaths({ title = "Background Paths" }) {
             overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
           >
             <Button
-              variant="ghost" 
+              variant="ghost"
+              onClick={() => {
+                // 🔹 Scroll 1000px down in 1.5s
+                smoothScrollBy(1000, 2000);
+              }}
               className="rounded-[1.15rem] px-8 py-6 text-lg font-semibold backdrop-blur-md 
                 bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-pink-500/100 dark:bg-black/95 dark:hover:bg-black/100 
                 text-white dark:text-white transition-all duration-300 

@@ -18,14 +18,14 @@ export function Hero() {
       />
 
     
-      <div className= "absolute inset-0 z-10 pt-20 md:pt-32 lg:pt-40 px-4 md:px-8 pointer-events-none" >
-        <div className=" text-center w-full max-w-2xl mx-auto" >
-        <GradualSpacing
-          className="font-display text-center text-4xl font-bold -tracking-widest  text-purple-500 dark:text-white md:text-7xl md:leading-[5rem]"
-          text="Predict. Prevent. Protect."
-        />
-        </div>
-      </div>
+<div className="absolute inset-0 z-10 flex items-start justify-center px-4 md:px-8 pointer-events-none">
+  <div className="w-full max-w-2xl text-center mt-20 md:mt-32 lg:mt-40">
+    <GradualSpacing
+      className="font-display text-4xl font-bold -tracking-widest text-purple-500 dark:text-white md:text-7xl md:leading-[5rem]"
+      text="Predict. Prevent. Protect."
+    />
+  </div>
+</div>
 
     </div> 
   );

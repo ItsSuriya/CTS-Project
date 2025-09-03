@@ -28,7 +28,7 @@ const FeaturesGrid = () => {
     <section className="relative w-full bg-[#0a0a0a] py-20 px-6 md:px-12 lg:px-20">
       <div className="max-w-7xl mx-auto text-center mb-14">
         <h2 className="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
-          Why Choose Prognos Health?
+          Why Choose Hope Care?
         </h2>
         <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
           Our platform empowers care teams to move from <span className="text-pink-400 font-semibold">reactive firefighting</span> 

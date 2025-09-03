@@ -9,4 +9,11 @@ export default {
       extend: {},
     },
     plugins: [],
+    extend: {
+      fontFamily: {
+        dancing: ["Dancing Script", "cursive"],
+        pacifico: ["Pacifico", "cursive"],
+        island: ["Island Moments", "cursive"],
+      },
+    }
   }
