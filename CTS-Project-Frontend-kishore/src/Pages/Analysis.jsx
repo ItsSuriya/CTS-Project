@@ -9,19 +9,21 @@ import { ParallaxFooter } from "@/components/Footer";
 const Analysis = () => {
   const [showRoiTable, setShowRoiTable] = useState(false);
   const [predictions, setPredictions] = useState([]);
+  const [roiData, setRoiData] = useState([]);
 
   const toggleRoiTable = () => {
     setShowRoiTable(!showRoiTable);
   };
 
-  const handlePrediction = (predictionData) => {
-    setPredictions(predictionData);
+  const handleAnalysis = (analysisData) => {
+    setPredictions(analysisData.predictions || []);
+    setRoiData(analysisData.roiReport || []);
   };
 
   return (
     <div>
       <DemoBackgroundPaths />
-      <CSVUploadComponent onPrediction={handlePrediction} />
+      <CSVUploadComponent onAnalysis={handleAnalysis} />
       <PatientTable patients={predictions} />
       
       {/* Toggle Button */}
@@ -49,7 +51,7 @@ const Analysis = () => {
       </div>
 
       {/* Conditionally render ROI Table */}
-      {showRoiTable && <RoiTable />}
+      {showRoiTable && <RoiTable roiData={roiData} />}
       <ParallaxFooter />
     </div>
     

@@ -1,57 +1,50 @@
 import React from 'react';
 import { TrendingUp, DollarSign, AlertTriangle } from 'lucide-react';
 
-export default function ROICalculator() {
-  // Sample patient data with risk tiers
-  const patients = [
-    { id: 1, name: "John Smith", riskTier: 5 },
-    { id: 2, name: "Alex Johnson", riskTier: 2 },
-    { id: 3, name: "Sarah Wilson", riskTier: 4 },
-    { id: 4, name: "Michael Brown", riskTier: 3 },
-    { id: 5, name: "Emma Davis", riskTier: 1 }
-  ];
+export default function RoiTable({ roiData }) {
 
-  // Base cost data
-  const costData = [
-    { category: "Initial Consultation", early: 250, late: 250 },
-    { category: "Diagnostic Tests", early: 800, late: 1200 },
-    { category: "Preventive Medication", early: 180, late: 450 },
-    { category: "Regular Monitoring", early: 400, late: 800 },
-    { category: "Emergency Interventions", early: 0, late: 3500 },
-    { category: "Hospitalization", early: 0, late: 12000 },
-    { category: "Surgical Procedures", early: 0, late: 25000 },
-    { category: "Rehabilitation & Recovery", early: 500, late: 2800 }
-  ];
+  if (!roiData || roiData.length === 0) {
+    return (
+      <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl mt-10 mb-10">
+        <div className="text-center">
+          <p className="text-slate-400 text-sm">No ROI data to display. Upload a CSV file to see the analysis.</p>
+        </div>
+      </div>
+    );
+  }
 
-  // Calculate base totals
-  const baseEarlyTotal = costData.reduce((sum, item) => sum + item.early, 0);
-  const baseLateTotal = costData.reduce((sum, item) => sum + item.late, 0);
-  const baseSavings = baseLateTotal - baseEarlyTotal;
+  const patientCosts = roiData.flatMap(patient => {
+    if (!patient.predictedCosts || patient.predictedCosts.length === 0) {
+      return []; // Return an empty array to be filtered out by flatMap
+    }
+    return patient.predictedCosts.map(costs => {
+        const earlyTotal = costs.predicted_proactive_cost || 0;
+        const lateTotal = costs.predicted_reactive_cost || 0;
+        const savings = costs.potential_savings || 0;
+        const savingsPercentage = lateTotal > 0 ? ((savings / lateTotal) * 100).toFixed(1) : 0;
 
-  // Calculate patient-specific costs based on risk tier
-  const patientCosts = patients.map(patient => {
-    // Risk multiplier: higher risk = higher costs
-    const riskMultiplier = 0.4 + (patient.riskTier * 0.3); // Range: 0.7 to 1.9
-    
-    const earlyTotal = Math.round(baseEarlyTotal * riskMultiplier);
-    const lateTotal = Math.round(baseLateTotal * riskMultiplier);
-    const savings = lateTotal - earlyTotal;
-    const savingsPercentage = ((savings / lateTotal) * 100).toFixed(1);
-    
-    return {
-      ...patient,
-      earlyTotal,
-      lateTotal,
-      savings,
-      savingsPercentage
-    };
+        return {
+          id: `${patient.patientId}-${costs.condition}`,
+          name: patient.patientId,
+          condition: costs.condition || 'N/A',
+          earlyTotal,
+          lateTotal,
+          savings,
+          savingsPercentage,
+          riskScore: costs.riskScore || 0,
+        };
+    });
   });
 
   // Calculate hospital totals
   const hospitalEarlyTotal = patientCosts.reduce((sum, patient) => sum + patient.earlyTotal, 0);
   const hospitalLateTotal = patientCosts.reduce((sum, patient) => sum + patient.lateTotal, 0);
   const hospitalSavings = hospitalLateTotal - hospitalEarlyTotal;
-  const hospitalSavingsPercentage = ((hospitalSavings / hospitalLateTotal) * 100).toFixed(1);
+  const hospitalSavingsPercentage = hospitalLateTotal > 0 ? ((hospitalSavings / hospitalLateTotal) * 100).toFixed(1) : 0;
+
+  const averageRiskReduction = patientCosts.length > 0
+    ? (patientCosts.reduce((sum, cost) => sum + cost.riskScore, 0) / patientCosts.length) * 100
+    : 0;
 
   return (
     <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl mt-10 mb-10 ">
@@ -66,37 +59,23 @@ export default function ROICalculator() {
         </div>
       </div>
       
-      {/* Cost Breakdown Table */}
-      
-      {/* Patient Savings Table */}
-     
       <div className="bg-white/5 rounded-2xl border border-white/10 overflow-hidden mt-10 mb-10 shadow-xl">
-        
         <table className="w-full">
           <thead>
             <tr className="bg-gradient-to-r from-blue-600/30 to-cyan-600/30">
-              <th className="px-6 py-4 text-left text-base font-semibold text-purple-400">Patient Name</th>
-              <th className="px-6 py-4 text-left text-base font-semibold text-purple-400">Risk Tier</th>
-              <th className="px-6 py-4 text-left text-base font-semibold text-purple-400">Early Cost ($)</th>
-              <th className="px-6 py-4 text-left text-base font-semibold text-purple-400">Late Cost ($)</th>
-              <th className="px-6 py-4 text-left text-base font-semibold text-purple-400">Savings ($)</th>
+              <th className="px-6 py-4 text-left text-base font-semibold text-purple-400">Patient ID</th>
+              <th className="px-6 py-4 text-left text-base font-semibold text-purple-400">Condition</th>
+              <th className="px-6 py-4 text-left text-base font-semibold text-purple-400">Proactive Cost ($)</th>
+              <th className="px-6 py-4 text-left text-base font-semibold text-purple-400">Reactive Cost ($)</th>
+              <th className="px-6 py-4 text-left text-base font-semibold text-purple-400">Potential Savings ($)</th>
               <th className="px-6 py-4 text-left text-base font-semibold text-purple-400">Savings (%)</th>
             </tr>
           </thead>
           <tbody>
-            {patientCosts.map((patient, index) => (
+            {patientCosts.map((patient) => (
               <tr key={patient.id} className="border-b border-white/10 hover:bg-white/5 transition-colors">
                 <td className="px-6 py-4 text-white font-medium">{patient.name}</td>
-                <td className="px-6 py-4">
-                  <span className={`px-3 py-2 rounded-xl text-sm font-bold border ${
-                    patient.riskTier <= 2 ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30" :
-                    patient.riskTier === 3 ? "bg-yellow-500/20 text-yellow-400 border-yellow-500/30" :
-                    patient.riskTier === 4 ? "bg-orange-500/20 text-orange-400 border-orange-500/30" :
-                    "bg-red-500/20 text-red-400 border-red-500/30"
-                  }`}>
-                    {patient.riskTier}
-                  </span>
-                </td>
+                <td className="px-6 py-4 text-white">{patient.condition}</td>
                 <td className="px-6 py-4 text-white font-semibold">${patient.earlyTotal.toLocaleString()}</td>
                 <td className="px-6 py-4 text-red-400 font-semibold">${patient.lateTotal.toLocaleString()}</td>
                 <td className="px-6 py-4 text-green-400 font-semibold">${patient.savings.toLocaleString()}</td>
@@ -140,7 +119,7 @@ export default function ROICalculator() {
             <AlertTriangle className="w-8 h-8 text-purple-400" />
             <h3 className="text-xl font-bold text-white">Risk Reduction</h3>
           </div>
-          <p className="text-3xl font-bold text-purple-400">75%</p>
+          <p className="text-3xl font-bold text-purple-400">{averageRiskReduction.toFixed(1)}%</p>
           <p className="text-slate-300 mt-2">Lower complication rates</p>
         </div>
 
@@ -149,7 +128,7 @@ export default function ROICalculator() {
             <DollarSign className="w-8 h-8 text-amber-400" />
             <h3 className="text-xl font-bold text-white">Avg. Savings</h3>
           </div>
-          <p className="text-3xl font-bold text-amber-400">${Math.round(hospitalSavings / patients.length).toLocaleString()}</p>
+          <p className="text-3xl font-bold text-amber-400">${roiData.length > 0 ? Math.round(hospitalSavings / roiData.length).toLocaleString() : 0}</p>
           <p className="text-slate-300 mt-2">Per patient with early intervention</p>
         </div>
       </div>

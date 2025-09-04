@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Upload, File, X, CheckCircle } from 'lucide-react';
 
-export default function CSVUploadComponent({ onPrediction }) {
+export default function CSVUploadComponent({ onAnalysis }) {
   const [file, setFile] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -64,8 +64,8 @@ export default function CSVUploadComponent({ onPrediction }) {
 
       if (response.ok) {
         const data = await response.json();
-        if (data.predictions) {
-          onPrediction(data.predictions);
+        if (data) { // Check if data exists
+          onAnalysis(data); // Pass the whole data object
         }
         setIsSubmitted(true);
       } else {
