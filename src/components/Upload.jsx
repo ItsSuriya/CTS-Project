@@ -1,7 +1,8 @@
+
 import React, { useState, useRef } from 'react';
 import { Upload, File, X, CheckCircle } from 'lucide-react';
 
-export default function CSVUploadComponent() {
+export default function CSVUploadComponent({ onAnalysis }) {
   const [file, setFile] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -42,7 +43,9 @@ export default function CSVUploadComponent() {
   const handleRemoveFile = () => {
     setFile(null);
     setIsSubmitted(false);
-    if (fileInputRef.current) fileInputRef.current.value = '';
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -50,15 +53,37 @@ export default function CSVUploadComponent() {
     if (!file) return;
 
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000)); // simulate API call
-    setIsSubmitting(false);
-    setIsSubmitted(true);
 
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFile(null);
-      if (fileInputRef.current) fileInputRef.current.value = '';
-    }, 3000);
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const response = await fetch('http://127.0.0.1:8000/predict', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data) {
+          onAnalysis(data);
+        }
+        setIsSubmitted(true);
+      } else {
+        console.error('Error submitting file');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setIsSubmitting(false);
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setFile(null);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+      }, 3000);
+    }
   };
 
   const formatFileSize = (bytes) => {
@@ -70,17 +95,17 @@ export default function CSVUploadComponent() {
   };
 
   return (
-    <div className="min-h-screen bg-[#ffffff] flex items-center justify-center p-6">
+    <div className="max-h-[80vh] bg-white flex items-center justify-center p-6">
       <div className="w-full max-w-md">
         <div className="space-y-6">
           {/* Upload Area */}
           <div
             className={`relative border-2 border-dashed rounded-2xl p-8 text-center transition-all duration-300 cursor-pointer group
-              ${isDragging
-                ? 'border-green-400 bg-green-100'
-                : file
-                ? 'border-teal-500 bg-teal-50'
-                : 'border-slate-300 hover:border-teal-400 hover:bg-teal-50'
+              ${isDragging 
+                ? 'border-green-400 bg-green-50' 
+                : file 
+                ? 'border-blue-400 bg-blue-50' 
+                : 'border-slate-300 hover:border-green-400 hover:bg-green-50/50'
               }`}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
@@ -98,9 +123,9 @@ export default function CSVUploadComponent() {
             {!file ? (
               <>
                 <div className={`mx-auto w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all duration-300
-                  ${isDragging ? 'bg-green-200' : 'bg-teal-100 group-hover:bg-teal-200'}`}>
+                  ${isDragging ? 'bg-green-100' : 'bg-blue-100 group-hover:bg-green-100'}`}>
                   <Upload className={`w-8 h-8 transition-colors duration-300 
-                    ${isDragging ? 'text-green-500' : 'text-teal-500 group-hover:text-teal-600'}`} />
+                    ${isDragging ? 'text-green-500' : 'text-blue-500 group-hover:text-green-500'}`} />
                 </div>
                 <h3 className="text-xl font-semibold text-slate-800 mb-2">
                   {isDragging ? 'Drop your CSV file here' : 'Upload CSV File'}
@@ -114,8 +139,8 @@ export default function CSVUploadComponent() {
               </>
             ) : (
               <div className="space-y-3">
-                <div className="mx-auto w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center">
-                  <File className="w-8 h-8 text-teal-500" />
+                <div className="mx-auto w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
+                  <File className="w-8 h-8 text-blue-500" />
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-slate-800 truncate">
@@ -128,7 +153,7 @@ export default function CSVUploadComponent() {
                 <button
                   type="button"
                   onClick={handleRemoveFile}
-                  className="inline-flex items-center gap-2 px-3 py-1.5 text-sm text-red-500 hover:text-red-600 hover:bg-red-100 rounded-lg transition-colors duration-200"
+                  className="inline-flex items-center gap-2 px-3 py-1.5 text-sm text-red-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200"
                 >
                   <X className="w-4 h-4" />
                   Remove
@@ -141,12 +166,12 @@ export default function CSVUploadComponent() {
           <button
             onClick={handleSubmit}
             disabled={!file || isSubmitting}
-            className={`w-full rounded-[1.15rem] px-8 py-4 text-lg font-semibold transition-all duration-300 border border-slate-200
+            className={`w-full rounded-[1.15rem] px-8 py-4 text-lg font-semibold transition-all duration-300 border
               ${!file || isSubmitting
-                ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                ? 'bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed'
                 : isSubmitted
-                ? 'bg-gradient-to-r from-teal-500 to-blue-500 hover:from-teal-600 hover:to-blue-600 text-white'
-                : 'bg-gradient-to-r from-teal-500 to-blue-500 hover:from-teal-600 hover:to-blue-600 text-white shadow-lg hover:-translate-y-0.5'
+                ? 'bg-green-500 hover:bg-green-600 text-white border-green-500'
+                : 'bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white shadow-md hover:shadow-lg hover:-translate-y-0.5'
               }`}
           >
             {isSubmitting ? (
