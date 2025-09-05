@@ -110,7 +110,7 @@ export function BackgroundPaths({ title = "Background Paths" }) {
           >
             <Button
               variant="ghost"
-              onClick={() => smoothScrollBy(900, 2000)}
+              onClick={() => smoothScrollBy(600, 2000)}
               className="rounded-[1.15rem] px-8 py-6 text-lg font-semibold backdrop-blur-md 
                 bg-gradient-to-r from-blue-600 to-emerald-500 
                 text-white transition-all duration-300 
